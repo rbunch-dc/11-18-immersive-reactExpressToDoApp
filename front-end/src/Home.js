@@ -10,17 +10,19 @@ class Home extends Component{
         this.changeTask = this.changeTask.bind(this)
     }
 
-    addNewTask(event){
+    addNewTask = (event)=>{
         event.preventDefault();
         console.log("someone submitted the form!!");
+        this.props.addNewTask(this.state.task, this.state.date);
     }
 
-    changeTask(event){
+    changeTask = (event)=>{
+        console.log(event.target.value)
         this.setState({
             task: event.target.value
         })
     }
-    changeDate(event){
+    changeDate = (event)=>{
         this.setState({
             date: event.target.value
         })        

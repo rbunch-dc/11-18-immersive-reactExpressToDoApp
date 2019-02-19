@@ -3,11 +3,22 @@ import './App.css';
 import NavBar from './NavBar';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Home from './Home';
-class App extends Component {
+import axios from 'axios'
 
-  addNewTask(event){
-    event.preventDefault(); 
-    console.dir(event.target);
+
+class App extends Component {
+  addNewTask(task,date){
+    console.log(task, date);
+    axios({
+      method: 'POST',
+      url: 'http://localhost:3000/addTask',
+      data: {
+        taskName: task,
+        taskDate: date
+      }
+    }).then((backEndResponse)=>{
+      console.log(backEndResponse)
+    })
   }
 
   render() {
