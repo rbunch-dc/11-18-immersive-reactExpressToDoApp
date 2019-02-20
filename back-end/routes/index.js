@@ -38,4 +38,18 @@ router.get('/getTask/:tid',(req, res)=>{
   })
 })
 
+router.post('/edit',(req, res)=>{
+  const id = req.body.id;
+  const taskName = req.body.task.taskName
+  const taskDate = req.body.task.taskDate.substring(0,10);
+  const updateQuery = `UPDATE tasks SET taskName = ?, taskDate = ? 
+    WHERE id = ?`;
+  connection.query(updateQuery,[taskName,taskDate,id],(error,results)=>{
+    if(error){throw error};
+    res.json({
+      msg: "updated"
+    })
+  })
+});
+
 module.exports = router;

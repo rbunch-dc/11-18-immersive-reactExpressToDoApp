@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import moment from 'moment';
+import { on } from 'cluster';
 
 class Edit extends Component{
     constructor(){
@@ -36,7 +37,7 @@ class Edit extends Component{
     changeDate = (e)=>{
         const value = e.target.value;
         let taskStateCopy = {...this.state.task}
-        taskStateCopy.taskDate = value;
+        taskStateCopy.taskDate = moment(value).format('YYYY-MM-DD');
         this.setState({
             task: taskStateCopy
         })
@@ -44,6 +45,21 @@ class Edit extends Component{
 
     editTask = (e)=>{
         e.preventDefault()
+        axios({
+            method: "POST",
+            data: {
+                task: this.state.task,
+                id: this.props.match.params.id
+            },
+            url: `http://localhost:3000/edit/`
+        }).then((jsonData)=>{
+            console.log(jsonData.data);
+            if(jsonData.data.msg === 'updated'){
+                // the backend, whoevever and whatever is, succeded
+                // moving on...
+                this.props.match.history.push('/');
+            }
+        })
     }
 
     render(){
