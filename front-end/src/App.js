@@ -7,7 +7,23 @@ import axios from 'axios'
 
 
 class App extends Component {
-  addNewTask(task,date){
+  constructor(){
+    super();
+    this.state = {
+      taskList: []
+    }
+  }
+
+  componentDidMount(){
+    axios({
+      method: 'GET',
+      url: 'http://localhost:3000/getTasks',
+    }).then((taskListFromBackEnd)=>{
+      console.log(taskListFromBackEnd);
+    })
+  }
+
+  addNewTask = (task,date)=>{
     console.log(task, date);
     axios({
       method: 'POST',
@@ -18,16 +34,18 @@ class App extends Component {
       }
     }).then((backEndResponse)=>{
       console.log(backEndResponse)
+      this.setState({
+        taskList: backEndResponse.data
+      })
     })
   }
-
   render() {
     return (
       <Router>
         <div className="App">
           <NavBar />
           <Route exact path="/" render={()=>{
-            return <Home addNewTask={this.addNewTask} />
+            return <Home taskList={this.state.taskList} addNewTask={this.addNewTask} />
           }} />
         </div>
       </Router>

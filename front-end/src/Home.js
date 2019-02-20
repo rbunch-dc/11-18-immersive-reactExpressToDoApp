@@ -29,6 +29,16 @@ class Home extends Component{
     }
 
     render(){
+        const taskArray = this.props.taskList.map((task,i)=>{
+            return (
+                <tr key={task.id}>
+                    <td>{task.taskName} - {task.taskDate}</td>
+                    <td><button className="btn red">Delete</button></td>
+					<td><button className="btn blue">Edit</button></td>
+                </tr>
+            )
+        })
+        console.log(taskArray)
         return(
             <div className="to-do-app">
                 <div className="section no-pad-bot" id="index-banner">
@@ -55,7 +65,7 @@ class Home extends Component{
                             </tr>
                         </thead>
                         <tbody>
-
+                            {taskArray}
                         </tbody>
                     </table>
                 </div>

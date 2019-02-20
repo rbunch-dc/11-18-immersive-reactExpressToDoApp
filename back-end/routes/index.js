@@ -6,10 +6,6 @@ const config = require('../config');
 const connection = mysql.createConnection(config);
 connection.connect();
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
 router.post('/addTask',(req, res)=>{
   const taskName = req.body.taskName;
   const taskDate = req.body.taskDate;
@@ -25,5 +21,12 @@ router.post('/addTask',(req, res)=>{
     });
 });
 
+router.get('/getTasks',(req, res)=>{
+  const getTasksQuery = `SELECT * FROM tasks`;
+  connection.query(getTasksQuery,(error2,results2)=>{
+    if(error2){throw error2};
+    res.json(results2)
+  })
+})
 
 module.exports = router;
